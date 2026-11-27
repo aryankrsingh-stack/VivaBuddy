@@ -1,0 +1,6 @@
+{
+  "name": "VivaBuddy",
+  "description": "Your Personal Viva Practice Partner — prepare for college oral exams in any subject with a virtual examiner, voice Q&A, instant evaluation, and detailed performance reports.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
