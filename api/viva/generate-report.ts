@@ -4,7 +4,7 @@ import {
   formatApiError,
   generateReportService,
   getRequestBody,
-} from '../../server/vivaService';
+} from '../../server/vivaService.ts';
 
 export default async function handler(req: ApiRequestLike, res: ApiResponseLike) {
   if (req.method === 'OPTIONS') {
