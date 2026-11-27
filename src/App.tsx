@@ -147,7 +147,10 @@ export default function App() {
 
     try {
       const result = await generateVivaQuestions(notes, language);
-      setSubjectTitle(result.subjectTitle);
+      if (!Array.isArray(result.questions) || result.questions.length === 0) {
+        throw new Error('Could not generate viva questions from these notes. Please try again.');
+      }
+      setSubjectTitle(result.subjectTitle || 'Study Notes Viva');
       setQuestions(result.questions);
       setEntries([]);
       setCurrentQuestionIndex(0);
@@ -304,8 +307,10 @@ export default function App() {
     scrollToTop();
   };
 
-  const currentQuestion = questions[currentQuestionIndex];
-  const currentEntry = entries[currentQuestionIndex];
+  const safeQuestions = Array.isArray(questions) ? questions : [];
+  const safeEntries = Array.isArray(entries) ? entries : [];
+  const currentQuestion = safeQuestions[currentQuestionIndex];
+  const currentEntry = safeEntries[currentQuestionIndex];
 
   return (
     <div className="relative min-h-screen flex flex-col bg-[#101827] text-[#F8FAFC] overflow-x-clip">
@@ -351,7 +356,7 @@ export default function App() {
         <StepProgressBar
           currentStep={step}
           currentQuestionIndex={currentQuestionIndex}
-          totalQuestions={questions.length || 5}
+          totalQuestions={safeQuestions.length || 5}
           canNavigateTo={canNavigateToStep}
           onSelectStep={handleSelectStepFromBar}
         />
@@ -411,7 +416,7 @@ export default function App() {
               subjectTitle={subjectTitle}
               question={currentQuestion}
               questionIndex={currentQuestionIndex}
-              totalQuestions={questions.length}
+              totalQuestions={safeQuestions.length}
               language={language}
               timerSeconds={timerSeconds}
               isEvaluating={isEvaluatingAnswer}
@@ -426,7 +431,7 @@ export default function App() {
               key={`feedback-${currentEntry.question.id}`}
               entry={currentEntry}
               questionIndex={currentQuestionIndex}
-              totalQuestions={questions.length}
+              totalQuestions={safeQuestions.length}
               language={language}
               isEvaluatingFollowUp={isEvaluatingFollowUp}
               followUpError={followUpError}

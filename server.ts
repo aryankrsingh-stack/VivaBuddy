@@ -567,6 +567,11 @@ ${notes.slice(0, 6000)}
     }
   });
 
+  // Ensure unknown API routes always return JSON instead of falling through to SPA HTML
+  app.use('/api', (_req: Request, res: Response) => {
+    res.status(404).json({ error: 'API endpoint not found.' });
+  });
+
   if (process.env.NODE_ENV !== 'production') {
     const { createServer: createViteServer } = await import('vite');
     const vite = await createViteServer({
