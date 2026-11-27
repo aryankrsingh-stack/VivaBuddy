@@ -1,4 +1,4 @@
-import { ApiRequestLike, ApiResponseLike } from '../server/vivaService';
+import { ApiRequestLike, ApiResponseLike } from '../server/vivaService.ts';
 
 export default function handler(req: ApiRequestLike, res: ApiResponseLike) {
   if (req.method === 'OPTIONS') {
